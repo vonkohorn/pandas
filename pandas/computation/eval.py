@@ -112,7 +112,8 @@ def eval(expr, parser='pandas', engine='numexpr', truediv=True,
 
     # construct the engine and evaluate
     eng = _engines[engine]
-    ret = eng(parsed_expr).evaluate()
+    eng_inst = eng(parsed_expr)
+    ret = eng_inst.evaluate()
 
     # sanity check for a number if it's a scalar result
     # TODO: eventually take out

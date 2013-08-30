@@ -1945,6 +1945,7 @@ class TestHDFStore(unittest.TestCase):
             df.ix[0:4,'string'] = 'bar'
             wp = tm.makePanel()
             p4d = tm.makePanel4D()
+            store.put('df', df, format='table')
             store.put('wp', wp, format='table')
             store.put('p4d', p4d, format='table')
 

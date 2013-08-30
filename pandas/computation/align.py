@@ -183,7 +183,7 @@ def _align(terms):
         terms = list(com.flatten(terms))
     except TypeError:
         # can't iterate so it must just be a constant or single variable
-        if isinstance(terms.value, (pd.Series, pd.core.generic.NDFrame)):
+        if isinstance(terms.value, pd.core.generic.NDFrame):
             typ = type(terms.value)
             return typ, _zip_axes_from_type(typ, terms.value.axes)
         return np.result_type(terms.type), None
