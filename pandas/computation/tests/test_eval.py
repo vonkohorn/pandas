@@ -60,9 +60,9 @@ def _eval_single_bin(lhs, cmp1, rhs, engine):
 
 
 def _series_and_2d_ndarray(lhs, rhs):
-    return ((com.is_series(lhs) and
+    return ((isinstance(lhs, Series) and
              isinstance(rhs, np.ndarray) and rhs.ndim > 1)
-            or (com.is_series(rhs) and
+            or (isinstance(rhs, Series) and
                 isinstance(lhs, np.ndarray) and lhs.ndim > 1))
 
 
@@ -228,8 +228,9 @@ class TestEvalNumexprPandas(unittest.TestCase):
             pass
         else:
             # these are not compatible operands
-            if (com.is_series(lhs_new) and com.is_frame(rhs_new) or
-                _bool_and_frame(lhs_new, rhs_new)):
+            if (isinstance(lhs_new, pd.Series) and
+                    isinstance(rhs_new, pd.DataFrame) or
+                    _bool_and_frame(lhs_new, rhs_new)):
                 self.assertRaises(TypeError, _eval_single_bin, lhs_new, '&',
                                   rhs_new, self.engine)
             elif _series_and_2d_ndarray(lhs_new, rhs_new):
@@ -464,7 +465,6 @@ class TestEvalPythonPandas(TestEvalPythonPython):
     def check_chained_cmp_op(self, lhs, cmp1, mid, cmp2, rhs):
         TestEvalNumexprPandas.check_chained_cmp_op(self, lhs, cmp1, mid, cmp2,
                                                    rhs)
-
 
 
 f = lambda *args, **kwargs: np.random.randn()
